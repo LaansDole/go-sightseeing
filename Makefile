@@ -21,7 +21,10 @@ push:
 	git commit -m "$$type: $$message"
 	git pull
 	git push -u
+
+SHELL := /bin/bash
 .PHONY: project
 project:
 	chmod +x ./go-projects/init_setup.sh
-	source ./go-projects/init_setup.sh
+	read -p "Enter project name: " project; \
+	bash -c "source ./go-projects/init_setup.sh go-projects/$$project"
