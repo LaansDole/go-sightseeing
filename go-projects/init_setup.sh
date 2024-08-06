@@ -43,5 +43,4 @@ EOF
 echo "Project structure for Banking Service has been set up in ${BASE_DIR}."
 
 # Open the project directory
-cd "${BASE_DIR}" || echo -e "Cannot find directory" && return
-go mod init "${BASE_DIR}"
+cd "${BASE_DIR}" && go mod init "${BASE_DIR}" || echo -e "Cannot find directory"; return
