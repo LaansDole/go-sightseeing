@@ -12,7 +12,7 @@ type Account interface {
 	GetAccountNumber() AccountNumber
 	GetBalance() float64
 	GetType() string
-	IsEligibleForCancellation() bool
+	IsValidForCancellation() bool
 }
 
 // BaseAccount struct to be embedded in other account types
@@ -39,7 +39,7 @@ func (acc ActiveAccount) GetType() string {
 	return "active"
 }
 
-func (acc ActiveAccount) IsEligibleForCancellation() bool {
+func (acc ActiveAccount) IsValidForCancellation() bool {
 	// Add logic specific to ActiveAccount cancellation
 	return true
 }
@@ -53,7 +53,7 @@ func (acc TrialAccount) GetType() string {
 	return "trial"
 }
 
-func (acc TrialAccount) IsEligibleForCancellation() bool {
+func (acc TrialAccount) IsValidForCancellation() bool {
 	// Add logic specific to TrialAccount cancellation
 	return true
 }
@@ -67,7 +67,7 @@ func (acc SuspendedAccount) GetType() string {
 	return "suspended"
 }
 
-func (acc SuspendedAccount) IsEligibleForCancellation() bool {
+func (acc SuspendedAccount) IsValidleForCancellation() bool {
 	// Add logic specific to SuspendedAccount cancellation
 	return false
 }
@@ -82,7 +82,7 @@ func (acc CancelledAccount) GetType() string {
 	return "cancelled"
 }
 
-func (acc CancelledAccount) IsEligibleForCancellation() bool {
+func (acc CancelledAccount) IsValidForCancellation() bool {
 	// Generally, a cancelled account is already in the process of being canceled
 	// But you might have additional logic here
 	return false
@@ -97,7 +97,7 @@ func (acc LegacyAccount) GetType() string {
 	return "legacy"
 }
 
-func (acc LegacyAccount) IsEligibleForCancellation() bool {
+func (acc LegacyAccount) IsValidForCancellation() bool {
 	// Add logic specific to LegacyAccount cancellation
 	return true
 }
@@ -112,7 +112,7 @@ func (acc FamilyOrEnterpriseAccount) GetType() string {
 	return "family_or_enterprise"
 }
 
-func (acc FamilyOrEnterpriseAccount) IsEligibleForCancellation() bool {
+func (acc FamilyOrEnterpriseAccount) IsValidForCancellation() bool {
 	// Add logic specific to FamilyOrEnterpriseAccount cancellation
 	return true
 }
