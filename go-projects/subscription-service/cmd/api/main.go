@@ -35,7 +35,7 @@ func main() {
 	case sig := <-signalCh:
 		logrus.Info(
 			mainCtx,
-			"received signal: %v",
+			"\nReceived signal: ",
 			sig.String(),
 		)
 		cancel()
