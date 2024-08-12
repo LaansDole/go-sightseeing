@@ -6,14 +6,14 @@ push:
 		echo "Enter commit type:"; \
 		echo "1. feat"; \
 		echo "2. fix"; \
-		echo "3. update"; \
-		echo "4. docs"; \
+		echo "3. docs"; \
+		echo "4. chore"; \
 		read -p "Choose a number from 1-4: " num; \
 		case $$num in \
 			1) type="feat"; break;; \
 			2) type="fix"; break;; \
-			3) type="update"; break;; \
-			4) type="docs"; break;; \
+			3) type="docs"; break;; \
+			4) type="chore"; break;; \
 			*) echo "Please choose again";; \
 		esac; \
 	done; \
