@@ -1,7 +1,7 @@
 package domain
 
 import (
-	"github.com/laansdole/go-sightseeing/internal/common/errorf"
+	"github.com/laansdole/go-sightseeing/go-projects/subscription-service/internal/common/domain/errorf"
 )
 
 type Validity string
@@ -25,11 +25,6 @@ type StipulationValidations struct {
 
 type ValidateAccountForCancellationRequest struct {
 	AccountNumber AccountNumber
-	Balances      AccountBalances
-}
-
-type AccountBalances struct {
-	CurrentBalance float64
 }
 
 type ValidateAccountForCancellationResponse struct {

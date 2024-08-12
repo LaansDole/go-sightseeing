@@ -1,4 +1,4 @@
-package xerrors
+package errorf
 
 import (
 	"errors"
@@ -12,7 +12,7 @@ var (
 	ErrUnauthorized   = errors.New("unauthorized")
 )
 
-func WrapError(err error, message string, a ...any) error {
+func wrapError(err error, message string, a ...any) error {
 	return fmt.Errorf("%s: %w", message, err)
 }
 
@@ -21,7 +21,7 @@ func IsNotFound(err error) bool {
 }
 
 func IsNotFoundf(message string, a ...any) error {
-	return WrapError(ErrNotFound, message, a...)
+	return wrapError(ErrNotFound, message, a...)
 }
 
 func IsInternalServer(err error) bool {
@@ -29,7 +29,7 @@ func IsInternalServer(err error) bool {
 }
 
 func IsInternalServerf(message string, a ...any) error {
-	return WrapError(ErrInternalServer, message, a...)
+	return wrapError(ErrInternalServer, message, a...)
 }
 
 func IsBadRequest(err error) bool {
