@@ -67,7 +67,7 @@ func (acc SuspendedAccount) GetType() string {
 	return "suspended"
 }
 
-func (acc SuspendedAccount) IsValidleForCancellation() bool {
+func (acc SuspendedAccount) IsValidForCancellation() bool {
 	// Add logic specific to SuspendedAccount cancellation
 	return false
 }
