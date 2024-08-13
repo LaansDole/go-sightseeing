@@ -3,9 +3,10 @@ package test
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/laansdole/go-sightseeing/go-projects/subscription-service/internal/common/domain"
 	"github.com/laansdole/go-sightseeing/go-projects/subscription-service/internal/common/domain/stub"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestIsValidForCancellation(t *testing.T) {

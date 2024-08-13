@@ -1,0 +1,30 @@
+name: Lint
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'go-projects/**/*.go'  # Only trigger when .go files in go-projects/ are modified
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'go-projects/**/*.go'  # Only trigger when .go files in go-projects/ are modified
+
+jobs:
+  lint:
+    name: Run golangci-lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4  # This checks out the code
+      - uses: actions/setup-go@v5   # This sets up the Go environment
+        with:
+          go-version: '1.22'        # Specify the Go version you want to use
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@v6
+        with:
+          version: v1.54            # Specify the version of golangci-lint
+          args: --timeout=5m        # Set the timeout for golangci-lint

@@ -1,0 +1,57 @@
+#file: noinspection YAMLSchemaValidation
+linters-settings:
+  goimports:
+    local-prefixes: github.com/laansdole/go-sightseeing/go-projects/subscription-service
+
+  funlen:
+    lines: -1
+    statements: 40
+
+  staticcheck:
+    checks: ["all"]
+
+linters:
+  enable:
+    - govet            # Reports suspicious constructs
+    - gofmt            # Checks for code formatting issues
+    - goimports        # Ensures proper import grouping and order
+    - gosec            # Identifies potential security issues in the code
+    - unused           # Checks for unused variables, constants, etc.
+    - staticcheck      # Static analysis tool which finds bugs, performance issues, and more
+    - gosimple         # Suggests simplifications to the code
+    - errcheck         # Checks that you are handling errors
+    - depguard         # Prevents the use of blacklisted packages
+    - ineffassign      # Detects when you assign a variable but never use it
+    - typecheck        # Finds issues with types
+
+  disable:
+    - lll              # Disables line length linting
+    - gocyclo          # Disables cyclomatic complexity checks
+    - dupl             # Disables duplicate code check
+
+issues:
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - funlen       # Disable function length check for test files
+
+run:
+  timeout: 5m
+  tests: true
+
+output:
+  formats:
+    - format: colored-line-number
+
+severity:
+  default-severity: error
+  min-severity: warning
+
+exclude:
+  - ST1000             # Exclude Staticcheck issue ST1000
+
+include:
+  - EXC0002            # Include specific issue EXC0002
+
+max-issues-per-linter: 0  # No limit on the number of issues per linter
+max-same-issues: 0         # No limit on the number of identical issues

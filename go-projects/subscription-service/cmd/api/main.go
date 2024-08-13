@@ -3,12 +3,13 @@ package main
 import (
 	"context"
 	"errors"
-	"github.com/sirupsen/logrus"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/sirupsen/logrus"
 )
 
 const (
