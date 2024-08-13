@@ -27,4 +27,4 @@ jobs:
         uses: golangci/golangci-lint-action@v6
         with:
           version: v1.54            # Specify the version of golangci-lint
-          args: --timeout=5m        # Set the timeout for golangci-lint
+          args: --timeout=5m ./go-projects/...  # Restrict linting to the go-projects directory
