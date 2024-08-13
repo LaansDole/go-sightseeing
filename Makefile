@@ -27,4 +27,4 @@ SHELL := /bin/bash
 project:
 	chmod +x ./go-projects/init_setup.sh
 	read -p "Enter project name: " project; \
-	bash -c "source ./go-projects/init_setup.sh go-projects/$$project"
+	bash -c "source ./go-projects/init_setup.sh -d go-projects/$$project"

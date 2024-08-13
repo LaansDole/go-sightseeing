@@ -20,12 +20,18 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4  # This checks out the code
-      - uses: actions/setup-go@v5   # This sets up the Go environment
+
+      - name: Set up Go
+        uses: actions/setup-go@v5   # This sets up the Go environment
         with:
           go-version: '1.22'        # Specify the Go version you want to use
 
+      - name: Install golangci-lint
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.59.1
+          golangci-lint --version  # Verify installation
+
       - name: Run golangci-lint
-        uses: golangci/golangci-lint-action@v6
-        with:
-          version: v1.54            # Specify the version of golangci-lint
-          args: --timeout=5m ./go-projects/**/*.go  # Restrict linting to the go-projects directory
+        run: |
+          cd go-projects/subscription-service  # Change to the correct directory
+          golangci-lint run --timeout=5m  # Run the linter
