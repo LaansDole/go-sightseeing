@@ -11,6 +11,7 @@ on:
       - main
     paths:
       - 'go-projects/**/*.go'  # Only trigger when .go files in go-projects/ are modified
+  workflow_dispatch:           # Allow manual trigger
 
 jobs:
   lint:
