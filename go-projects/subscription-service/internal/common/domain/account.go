@@ -2,6 +2,7 @@ package domain
 
 import (
 	"fmt"
+	"github.com/laansdole/go-sightseeing/go-projects/subscription-service/thirdparty"
 	"strings"
 )
 
@@ -27,7 +28,21 @@ func (acc BaseAccount) GetAccountNumber() AccountNumber {
 }
 
 func (acc BaseAccount) GetBalance() float64 {
-	return acc.Balance
+	// Fetch balance from the third-party service
+	balance, err := thirdparty.GetAccountBalance(string(acc.AccountNumber))
+	if err != nil {
+		return 0.00 // Handle the error by returning a default balance
+	}
+	return balance
+}
+
+func (acc BaseAccount) IsValidForCancellation() bool {
+	balance := acc.GetBalance()
+	// For this example, let's say the account is only valid for cancellation if the balance is non-negative
+	if balance >= 0 {
+		return true
+	}
+	return false
 }
 
 // ActiveAccount struct representing an active account
