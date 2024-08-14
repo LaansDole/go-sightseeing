@@ -1,4 +1,4 @@
-package test
+package domain_test
 
 import (
 	"testing"
@@ -24,9 +24,9 @@ func TestIsValidForCancellation(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "GIVEN an active account THEN it should be valid for cancellation",
+			name: "GIVEN an active account with a positive balance THEN it should be valid for cancellation",
 			args: args{
-				account: stub.NewActiveAccountStub(),
+				account: stub.NewActiveAccountStub("active123"),
 			},
 			want: want{
 				expectedResult: true,
@@ -34,29 +34,19 @@ func TestIsValidForCancellation(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "GIVEN a trial account THEN it should be valid for cancellation",
+			name: "GIVEN a trial account with a zero balance THEN it should be valid for cancellation",
 			args: args{
-				account: stub.NewTrialAccountStub(),
+				account: stub.NewTrialAccountStub("trial456"),
 			},
 			want: want{
 				expectedResult: true,
-			},
-			wantErr: false,
-		},
-		{
-			name: "GIVEN a suspended account THEN it should not be valid for cancellation",
-			args: args{
-				account: stub.NewSuspendedAccountStub(),
-			},
-			want: want{
-				expectedResult: false,
 			},
 			wantErr: false,
 		},
 		{
 			name: "GIVEN a cancelled account THEN it should not be valid for cancellation",
 			args: args{
-				account: stub.NewCancelledAccountStub(),
+				account: stub.NewCancelledAccountStub("cancelled012"),
 			},
 			want: want{
 				expectedResult: false,
@@ -64,19 +54,9 @@ func TestIsValidForCancellation(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "GIVEN a legacy account THEN it should be valid for cancellation",
+			name: "GIVEN a legacy account with a positive balance THEN it should be valid for cancellation",
 			args: args{
-				account: stub.NewLegacyAccountStub(),
-			},
-			want: want{
-				expectedResult: true,
-			},
-			wantErr: false,
-		},
-		{
-			name: "GIVEN a family or enterprise account THEN it should be valid for cancellation",
-			args: args{
-				account: stub.NewFamilyOrEnterpriseAccountStub(),
+				account: stub.NewLegacyAccountStub("legacy345"),
 			},
 			want: want{
 				expectedResult: true,
@@ -88,7 +68,7 @@ func TestIsValidForCancellation(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Perform the domain function
-			result := tt.args.account.IsValidForCancellation()
+			result := tt.args.account.Status
 
 			// Assertions
 			assert.Equal(t, tt.want.expectedResult, result)

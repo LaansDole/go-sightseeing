@@ -2,60 +2,68 @@ package stub
 
 import "github.com/laansdole/go-sightseeing/go-projects/subscription-service/internal/common/domain"
 
-// Create stubs for testing
-
-func NewActiveAccountStub() domain.Account {
-	return domain.ActiveAccount{
-		BaseAccount: domain.BaseAccount{
-			AccountNumber: "active123",
-			Balance:       100.0,
+// NewActiveAccountStub creates a stub for an active account.
+func NewActiveAccountStub(number string) domain.Account {
+	return domain.Account{
+		AccountNumber: domain.AccountNumber(number),
+		Balances: domain.AccountBalances{
+			CurrentMoney: 100.0, // Positive balance
 		},
+		Status: domain.ActiveAccount,
 	}
 }
 
-func NewTrialAccountStub() domain.Account {
-	return domain.TrialAccount{
-		BaseAccount: domain.BaseAccount{
-			AccountNumber: "trial123",
-			Balance:       0.0,
+// NewTrialAccountStub creates a stub for a trial account.
+func NewTrialAccountStub(number string) domain.Account {
+	return domain.Account{
+		AccountNumber: domain.AccountNumber(number),
+		Balances: domain.AccountBalances{
+			CurrentMoney: 0.0, // Zero balance
 		},
+		Status: domain.TrialAccount,
 	}
 }
 
-func NewSuspendedAccountStub() domain.Account {
-	return domain.SuspendedAccount{
-		BaseAccount: domain.BaseAccount{
-			AccountNumber: "suspended123",
-			Balance:       50.0,
+// NewCancelledAccountStub creates a stub for a cancelled account.
+func NewCancelledAccountStub(number string) domain.Account {
+	return domain.Account{
+		AccountNumber: domain.AccountNumber(number),
+		Balances: domain.AccountBalances{
+			CurrentMoney: 0.0, // Zero balance
 		},
+		Status: domain.CancelledAccount,
 	}
 }
 
-func NewCancelledAccountStub() domain.Account {
-	return domain.CancelledAccount{
-		BaseAccount: domain.BaseAccount{
-			AccountNumber: "cancelled123",
-			Balance:       0.0,
+// NewLegacyAccountStub creates a stub for a legacy account.
+func NewLegacyAccountStub(number string) domain.Account {
+	return domain.Account{
+		AccountNumber: domain.AccountNumber(number),
+		Balances: domain.AccountBalances{
+			CurrentMoney: 200.0, // Positive balance
 		},
-		GracePeriodEnd: "2023-12-31",
+		Status: domain.LegacyAccount,
 	}
 }
 
-func NewLegacyAccountStub() domain.Account {
-	return domain.LegacyAccount{
-		BaseAccount: domain.BaseAccount{
-			AccountNumber: "legacy123",
-			Balance:       200.0,
+// NewUnknownAccountStub creates a stub for an unknown account type.
+func NewUnknownAccountStub(number string) domain.Account {
+	return domain.Account{
+		AccountNumber: domain.AccountNumber(number),
+		Balances: domain.AccountBalances{
+			CurrentMoney: 50.0, // Neutral balance
 		},
+		Status: domain.UnknownAccount,
 	}
 }
 
-func NewFamilyOrEnterpriseAccountStub() domain.Account {
-	return domain.FamilyOrEnterpriseAccount{
-		BaseAccount: domain.BaseAccount{
-			AccountNumber: "family123",
-			Balance:       300.0,
+// NewCustomAccountStub allows creating a custom account stub with specified properties.
+func NewCustomAccountStub(number string, balance float64, status domain.AccountStatus) domain.Account {
+	return domain.Account{
+		AccountNumber: domain.AccountNumber(number),
+		Balances: domain.AccountBalances{
+			CurrentMoney: balance,
 		},
-		Members: 5,
+		Status: status,
 	}
 }
