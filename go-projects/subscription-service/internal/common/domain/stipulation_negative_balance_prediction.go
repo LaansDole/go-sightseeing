@@ -7,7 +7,7 @@ type NegativeBalanceStipulationValidation struct {
 var _ StipulationValidation = NegativeBalanceStipulationValidation{}
 
 func (v NegativeBalanceStipulationValidation) StipulationName() StipulationName {
-	return StipulationNegativeBalance
+	return StipulationNegativeBalancePrediction
 }
 
 func (v NegativeBalanceStipulationValidation) Validity() Validity {
