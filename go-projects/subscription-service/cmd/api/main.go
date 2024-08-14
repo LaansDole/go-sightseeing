@@ -47,7 +47,9 @@ func runAPIServer(ctx context.Context) error {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("ok"))
+		if _, err := w.Write([]byte("ok")); err != nil {
+			logrus.Error(ctx, "Failed to write response: ", err)
+		}
 	})
 
 	muxServer := &http.Server{

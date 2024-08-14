@@ -1,7 +1,4 @@
-#file: noinspection YAMLSchemaValidation
 linters-settings:
-  goimports:
-    local-prefixes: github.com/laansdole/go-sightseeing/go-projects/subscription-service
 
   funlen:
     lines: -1
@@ -10,24 +7,26 @@ linters-settings:
   staticcheck:
     checks: ["all"]
 
+  depguard:
+    rules:
+      main:
+        list-mode: lax
+        deny:
+          - pkg: "github.com/pkg/errors"
+            desc: Should be replaced by standard lib errors package
+
 linters:
   enable:
     - govet            # Reports suspicious constructs
-    - gofmt            # Checks for code formatting issues
-    - goimports        # Ensures proper import grouping and order
+    - goconst           # Checks for code formatting issues
     - gosec            # Identifies potential security issues in the code
     - unused           # Checks for unused variables, constants, etc.
     - staticcheck      # Static analysis tool which finds bugs, performance issues, and more
     - gosimple         # Suggests simplifications to the code
     - errcheck         # Checks that you are handling errors
-    - depguard         # Prevents the use of blacklisted packages
-    - ineffassign      # Detects when you assign a variable but never use it
-    - typecheck        # Finds issues with types
-
-  disable:
-    - lll              # Disables line length linting
-    - gocyclo          # Disables cyclomatic complexity checks
-    - dupl             # Disables duplicate code check
+    - funlen           # Finds repeated strings that could be replaced by a constant
+    - depguard         # Restrict the use of certain packages
+    - gofumpt          # Check for import ordering
 
 issues:
   exclude-rules:
@@ -38,6 +37,9 @@ issues:
 run:
   timeout: 5m
   tests: true
+  config: .golangci.yml
+  issues-exit-code: 1
+  new: false
 
 output:
   formats:
@@ -48,10 +50,10 @@ severity:
   min-severity: warning
 
 exclude:
-  - ST1000             # Exclude Staticcheck issue ST1000
+  - ST1000             # Overrides EXC0002, to stop warning about requiring a comment on packages
 
 include:
-  - EXC0002            # Include specific issue EXC0002
+  - EXC0002            # Enforce comments on exported functions
 
 max-issues-per-linter: 0  # No limit on the number of issues per linter
 max-same-issues: 0         # No limit on the number of identical issues
