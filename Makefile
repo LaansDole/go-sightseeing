@@ -1,8 +1,20 @@
 SHELL := /bin/bash
+
 .PHONY: push
 push:
-	git add .
 	@while true; do \
+		read -p "Do you want to add all files? (y/n): " yn; \
+		case $$yn in \
+			[Yy]*) git add .; break;; \
+			[Nn]*) \
+				echo "Enter the list of files to add (space-separated):"; \
+				read -p "Files: " files; \
+				git add $$files; \
+				break;; \
+			*) echo "Please answer y or n.";; \
+		esac; \
+	done; \
+	while true; do \
 		echo "Enter commit type:"; \
 		echo "1. feat"; \
 		echo "2. fix"; \
@@ -18,8 +30,8 @@ push:
 		esac; \
 	done; \
 	read -p "Enter commit message: " message; \
-	git commit -m "$$type: $$message"
-	git pull
+	git commit -m "$$type: $$message"; \
+	git pull; \
 	git push -u
 
 SHELL := /bin/bash
