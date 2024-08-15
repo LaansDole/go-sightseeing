@@ -12,6 +12,7 @@ type Account struct {
 	AccountNumber AccountNumber
 	Balances      AccountBalances
 	Status        AccountStatus
+	Type          AccountType
 }
 
 type AccountBalances struct {
@@ -38,4 +39,16 @@ func (acc AccountNumber) ResourceName() string {
 // Is
 func (acc AccountNumber) IsEqual(accountNumber string) bool {
 	return string(acc) == accountNumber
+}
+
+type Accounts []Account
+
+func (accList Accounts) FilterLegacyAccount() Accounts {
+	var legacyAccounts Accounts
+	for _, acc := range accList {
+		if acc.Status == AccountStatusActive && acc.IsLegacy() {
+			legacyAccounts = append(legacyAccounts, acc)
+		}
+	}
+	return legacyAccounts
 }

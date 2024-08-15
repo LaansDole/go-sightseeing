@@ -1,77 +1,81 @@
 package domain_test
 
 import (
+	"github.com/laansdole/go-sightseeing/go-projects/subscription-service/internal/common/domain/stub"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 
 	"github.com/laansdole/go-sightseeing/go-projects/subscription-service/internal/common/domain"
-	"github.com/laansdole/go-sightseeing/go-projects/subscription-service/internal/common/domain/stub"
 )
 
-func TestIsValidForCancellation(t *testing.T) {
-	type args struct {
-		account domain.Account
-	}
-	type want struct {
-		expectedResult bool
-	}
+func TestExtractAccountNumberFromResourceName(t *testing.T) {
+	want := domain.AccountNumber("1234")
+	got := domain.ExtractAccountNumberFrom("accounts/1234")
+	assert.Equal(t, want, got, "ResourceName()")
+}
 
+func TestResourceNameFromAccountNumber(t *testing.T) {
+	want := "accounts/1234"
+	got := domain.AccountNumber("1234").ResourceName()
+	assert.Equal(t, want, got, "ResourceName()")
+}
+
+func TestIsEqualAccountNumber(t *testing.T) {
 	tests := []struct {
-		name    string
-		args    args
-		want    want
-		wantErr bool
+		name string
+		acc  domain.AccountNumber
+		comp string
+		want bool
 	}{
 		{
-			name: "GIVEN an active account with a positive balance THEN it should be valid for cancellation",
-			args: args{
-				account: stub.NewActiveAccountStub("active123"),
-			},
-			want: want{
-				expectedResult: true,
-			},
-			wantErr: false,
+			name: "GIVEN equal account numbers THEN returns true",
+			acc:  domain.AccountNumber("1234"),
+			comp: "1234",
+			want: true,
 		},
 		{
-			name: "GIVEN a trial account with a zero balance THEN it should be valid for cancellation",
-			args: args{
-				account: stub.NewTrialAccountStub("trial456"),
-			},
-			want: want{
-				expectedResult: true,
-			},
-			wantErr: false,
-		},
-		{
-			name: "GIVEN a cancelled account THEN it should not be valid for cancellation",
-			args: args{
-				account: stub.NewCancelledAccountStub("cancelled012"),
-			},
-			want: want{
-				expectedResult: false,
-			},
-			wantErr: false,
-		},
-		{
-			name: "GIVEN a legacy account with a positive balance THEN it should be valid for cancellation",
-			args: args{
-				account: stub.NewLegacyAccountStub("legacy345"),
-			},
-			want: want{
-				expectedResult: true,
-			},
-			wantErr: false,
+			name: "GIVEN non-equal account numbers THEN returns false",
+			acc:  domain.AccountNumber("1234"),
+			comp: "5678",
+			want: false,
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			// Perform the domain function
-			result := tt.args.account.Status
+			got := tt.acc.IsEqual(tt.comp)
+			assert.Equal(t, tt.want, got)
+		})
+	}
+}
 
-			// Assertions
-			assert.Equal(t, tt.want.expectedResult, result)
+func TestFilterLegacyAccount(t *testing.T) {
+	tests := []struct {
+		name     string
+		accounts domain.Accounts
+		want     domain.Accounts
+	}{
+		{
+			name: "GIVEN a mixed list of accounts THEN returns only legacy accounts",
+			accounts: domain.Accounts{
+				stub.NewActiveAccountStub("active123"),
+				stub.NewLegacyAccountStub("legacy456"),
+				stub.NewCancelledAccountStub("cancelled789"),
+				stub.NewLegacyAccountStub("legacy012"),
+				stub.NewTrialAccountStub("trial345"),
+			},
+			want: domain.Accounts{
+				stub.NewLegacyAccountStub("legacy456"),
+				stub.NewLegacyAccountStub("legacy012"),
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := tt.accounts.FilterLegacyAccount()
+			assert.Equal(t, tt.want, got)
 		})
 	}
 }
