@@ -1,8 +1,9 @@
 package domain_test
 
 import (
-	"github.com/laansdole/go-sightseeing/go-projects/subscription-service/internal/common/domain/stub"
 	"testing"
+
+	"github.com/laansdole/go-sightseeing/go-projects/subscription-service/internal/common/domain/stub"
 
 	"github.com/stretchr/testify/assert"
 
