@@ -4,13 +4,14 @@ import (
 	"context"
 	"errors"
 	"flag"
-	"golang.org/x/net/http2"
-	"golang.org/x/net/http2/h2c"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
 
 	"github.com/sirupsen/logrus"
 )

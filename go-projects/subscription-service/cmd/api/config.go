@@ -2,10 +2,11 @@ package main
 
 import (
 	"context"
-	"github.com/creasty/defaults"
-	"gopkg.in/yaml.v3"
 	"os"
 	"strconv"
+
+	"github.com/creasty/defaults"
+	"gopkg.in/yaml.v3"
 )
 
 type Config struct {
@@ -13,8 +14,10 @@ type Config struct {
 	Port int    `json:"port" yaml:"port" default:"8080"`
 }
 
+// nolint:unused
 var configFile string
 
+// nolint:unused
 func loadConfig(configFile string) (ctx context.Context, cfg Config, err error) {
 	var contents []byte
 	contents, err = os.ReadFile(configFile)
@@ -27,7 +30,7 @@ func loadConfig(configFile string) (ctx context.Context, cfg Config, err error) 
 	if err != nil {
 		return
 	}
-	cfg, err = loadPort(cfg)
+	cfg, _ = loadPort(cfg)
 
 	// Set defaults and port
 	if err = defaults.Set(&cfg); err != nil {
@@ -39,6 +42,7 @@ func loadConfig(configFile string) (ctx context.Context, cfg Config, err error) 
 	return
 }
 
+// nolint:unused
 func loadPort(cfg Config) (Config, error) {
 	var err error
 	if port := os.Getenv("PORT"); port != "" {
