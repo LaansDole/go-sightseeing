@@ -1,4 +1,4 @@
-package worker
+package main
 
 import (
 	"github.com/laansdole/go-sightseeing/go-projects/temporal-101/cmd/api"
