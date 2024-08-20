@@ -18,7 +18,7 @@ linters-settings:
 linters:
   enable:
     - govet            # Reports suspicious constructs
-    - goconst           # Checks for code formatting issues
+    - goconst          # Checks for code formatting issues
     - gosec            # Identifies potential security issues in the code
     - unused           # Checks for unused variables, constants, etc.
     - staticcheck      # Static analysis tool which finds bugs, performance issues, and more
