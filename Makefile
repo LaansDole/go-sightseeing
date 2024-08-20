@@ -37,6 +37,6 @@ push:
 SHELL := /bin/bash
 .PHONY: project
 project:
-	chmod +x ./go-projects/init_setup.sh
+	chmod +x ./go-projects/scripts/init_setup.sh
 	read -p "Enter project name: " project; \
-	bash -c "source ./go-projects/init_setup.sh -d go-projects/$$project"
+	bash -c "source ./go-projects/scripts/init_setup.sh -d go-projects/$$project"
