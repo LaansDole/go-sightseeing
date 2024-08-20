@@ -3,6 +3,9 @@ package main
 import (
 	"context"
 	"errors"
+	"flag"
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
 	"net/http"
 	"os"
 	"os/signal"
@@ -13,7 +16,8 @@ import (
 )
 
 const (
-	_defaultPort = "8080"
+	_defaultConfigPath = "/app/config/config.yaml"
+	_defaultPort       = "8080"
 )
 
 func main() {
@@ -44,6 +48,10 @@ func main() {
 }
 
 func runAPIServer(ctx context.Context) error {
+	var configPath string
+	flag.StringVar(&configPath, "config", _defaultConfigPath, _defaultConfigPath+" (shorthand)")
+	flag.Parse()
+
 	mux := http.NewServeMux()
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
@@ -55,7 +63,7 @@ func runAPIServer(ctx context.Context) error {
 	muxServer := &http.Server{
 		ReadTimeout: 5 * time.Second,
 		Addr:        ":" + _defaultPort,
-		Handler:     mux,
+		Handler:     h2c.NewHandler(mux, &http2.Server{}),
 	}
 
 	errChan := make(chan error)
