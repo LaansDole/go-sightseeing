@@ -7,6 +7,7 @@ push:
 		case $$yn in \
 			[Yy]*) git add .; break;; \
 			[Nn]*) \
+			    git status; \
 				echo "Enter the list of files to add (space-separated):"; \
 				read -p "Files: " files; \
 				git add $$files; \
