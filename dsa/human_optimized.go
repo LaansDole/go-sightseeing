@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	humanV2(4)
+	humanV2(3)
 }
 
 func humanV2(n int) {
@@ -41,18 +41,28 @@ func bodyV2(n int) {
 }
 
 func legV2(n int) {
-	// Efficiently create and print the leg lines
+	leftPos := 2*n - 2
+	rightPos := 2*n + 2
+	lineLength := 4*n + 1
+	line := make([]byte, lineLength)
+
+	// Initialize the line with spaces
+	for j := range line {
+		line[j] = ' '
+	}
+
+	// Update positions for each iteration and print
 	for i := 0; i < n; i++ {
-		leftPos := 2*n - 2 - 2*i
-		rightPos := 2*n + 2 + 2*i
-		line := make([]byte, 4*n+1)
-		for j := range line {
-			if j == leftPos || j == rightPos {
-				line[j] = '*'
-			} else {
-				line[j] = ' '
-			}
-		}
+		line[leftPos] = '*'
+		line[rightPos] = '*'
 		fmt.Println(string(line))
+
+		// Reset the positions for the next iteration
+		line[leftPos] = ' '
+		line[rightPos] = ' '
+
+		// Move positions inward
+		leftPos -= 2
+		rightPos += 2
 	}
 }
