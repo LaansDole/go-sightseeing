@@ -1,21 +1,12 @@
 SHELL := /bin/bash
 
-.PHONY: push
-push:
+.PHONY: add
+add:
+	bash -c "source ./scripts/fuzzy-add.sh"
+
+.PHONY: commit
+commit:
 	@while true; do \
-		read -p "Do you want to add all files? (y/n): " yn; \
-		case $$yn in \
-			[Yy]*) git add .; break;; \
-			[Nn]*) \
-			    git status; \
-				echo "Enter the list of files to add (space-separated):"; \
-				read -p "Files: " files; \
-				git add $$files; \
-				break;; \
-			*) echo "Please answer y or n.";; \
-		esac; \
-	done; \
-	while true; do \
 		echo "Enter commit type:"; \
 		echo "1. feat"; \
 		echo "2. fix"; \
@@ -34,6 +25,9 @@ push:
 	git commit -m "$$type: $$message"; \
 	git pull; \
 	git push -u
+
+.PHONY: push
+push: add commit
 
 SHELL := /bin/bash
 .PHONY: project
